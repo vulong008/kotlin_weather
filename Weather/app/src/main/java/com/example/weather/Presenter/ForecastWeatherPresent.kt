@@ -15,10 +15,8 @@ class ForecastWeatherPresent(var view: ForecastWeatherContract.View) :
         if (weatherService != null) {
             weatherService.ForecastWeather(lat, lon, appid)
                 .enqueue(object : Callback<WeatherResponse> {
-                    override fun onResponse(
-                        call: Call<WeatherResponse>,
-                        response: Response<WeatherResponse>
-                    ) {
+                    override fun onResponse(call: Call<WeatherResponse>,
+                        response: Response<WeatherResponse>) {
                         response.body()?.let {
                             view.getSuccess(weatherResponse = it) }
                     }
@@ -26,11 +24,7 @@ class ForecastWeatherPresent(var view: ForecastWeatherContract.View) :
                     override fun onFailure(call: Call<WeatherResponse>, t: Throwable) {
                         t.message?.let {
                             view.getFailure(it) }
-                    }
-
-                }
-                )
+                    } })
         }
-
     }
 }
