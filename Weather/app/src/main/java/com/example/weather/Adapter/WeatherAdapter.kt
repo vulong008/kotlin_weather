@@ -6,18 +6,17 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.WeatherKotlin.Model.Weather
-
 import com.example.weather.R
 import java.text.SimpleDateFormat
 import java.util.*
 
-class WeatherAdapter(var weatherList: ArrayList<Weather>) :
+class WeatherAdapter(var weatherList: List<Weather>) :
     RecyclerView.Adapter<WeatherAdapter.ViewHolder>() {
     class ViewHolder(item: View) : RecyclerView.ViewHolder(item) {
-        lateinit var textTime: TextView
-        lateinit var textTemp: TextView
-        lateinit var textTempMax: TextView
-        lateinit var textTempMin: TextView
+        var textTime: TextView
+        var textTemp: TextView
+        var textTempMax: TextView
+        var textTempMin: TextView
 
         init {
             textTemp = item.findViewById(R.id.textTemp)
@@ -33,12 +32,12 @@ class WeatherAdapter(var weatherList: ArrayList<Weather>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        var weather = weatherList.get(position)
-        var date: Date = Date(weather.dt * 1000L)
-        var sdf = SimpleDateFormat("yyyy-MM-dd");
+        val weather = weatherList.get(position)
+        val date = Date(weather.dt * 1000L)
+        val sdf = SimpleDateFormat("yyyy-MM-dd")
         sdf.timeZone = TimeZone.getTimeZone("GMT+7")
-        var timeString = sdf.format(date);
-        holder.textTime.text = timeString;
+        val timeString = sdf.format(date)
+        holder.textTime.text = timeString
         val temp: Double = weather.main.temp - 273
         val tempMax: Double = weather.main.temp_max - 273
         val tempMin: Double = weather.main.temp_min - 273
@@ -47,9 +46,7 @@ class WeatherAdapter(var weatherList: ArrayList<Weather>) :
         val tempMinString = String.format("%.02f", tempMin)
         holder.textTemp.text = tempString + 0x00B0.toChar() + " C"
         holder.textTempMax.text = tempMaxString + 0x00B0.toChar() + " C"
-        holder.textTempMin.setText(tempMinString + 0x00B0.toChar() + " C")
-
-
+        holder.textTempMin.text = tempMinString + 0x00B0.toChar() + " C"
     }
 
     override fun getItemCount(): Int {
